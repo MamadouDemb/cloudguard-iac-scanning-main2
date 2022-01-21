@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('CloudGuard_Shiftleft_IaC') {
             environment {
-                CHKP_CLOUDGUARD_CREDS = credentials(CloudGuard_Credentials)
+                CHKP_CLOUDGUARD_ID = credentials("CHKP_CLOUDGUARD_ID")
+                CHKP_CLOUDGUARD_SECRET = credentials("CHKP_CLOUDGUARD_SECRET")
+                SHIFTLEFT_REGION =  credentials("SHIFTLEFT_REGION")
             }
             agent {
                 docker {
@@ -13,39 +15,19 @@ pipeline {
             }
             steps {
                 dir('iac-code') {
-                    git branch: '{banch}',
-                    credentialsId: '{jenkins_credentials_id_for_git_credentials}',
-                    url: {git_repo_url}'
+                    git branch: 'main',
+                    url: 'https://github.com/MamadouDemb/cloudguard-iac-scanning-main2.git'
                 }
                 sh '''
-                    export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_CREDS_USR
-                    export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_CREDS_PSW
-                    shiftleft iac-assessment -i terraform -p iac-code/terraform-template -r {rulesetId} -e {environmentId}
+                    export SHIFTLEFT_REGION=eu1
+                    export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
+                    export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
+                    shiftleft --directory ~/shiftleft iac-assessment --Infrastructure-Type terraform --path aws --ruleset -64 --severity-level High  --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
                 '''
             }
         }
-        stage('CloudGuard_Shiftleft_Code_Scan') {
-            environment {
-                CHKP_CLOUDGUARD_CREDS = credentials(CloudGuard_Credentials)
-            }
-            agent {
-                docker {
-                    image 'checkpoint/shiftleft:latest'
-                    args '-v /tmp/:/tmp/'
-                }
-            }
-            steps {
-                dir('code-dir') {
-                    git branch: '{banch}',
-                    credentialsId: '{jenkins_credentials_id_for_git_credentials}',
-                    url: {git_repo_url}'
-                }
-                sh '''
-                    export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_CREDS_USR
-                    export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_CREDS_PSW
-                    shiftleft code-scan -s code-dir -r {rulesetId} -e {environmentId}
-                '''
-            }
-        }
+
+
+
     }
 }
