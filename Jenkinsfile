@@ -22,7 +22,7 @@ pipeline {
                     export SHIFTLEFT_REGION=eu1
                     export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
                     export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
-                    shiftleft iac-assessment -l aws_s3_bucket should have acl='private'  --path ./aws
+                    shiftleft iac-assessment -l S3Bucket should have encryption.serverSideEncryptionRules -p ./aws
                 '''
             }
         }
