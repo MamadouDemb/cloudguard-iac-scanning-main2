@@ -14,7 +14,7 @@ pipeline {
                 }
             }
             steps {
-                dir('iac-code') {
+                dir('cloudguard-iac-scanning-main2') {
                     git branch: 'main',
                     url: 'https://github.com/MamadouDemb/cloudguard-iac-scanning-main2.git'
                 }
