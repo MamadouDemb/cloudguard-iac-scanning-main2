@@ -22,7 +22,7 @@ pipeline {
                     export SHIFTLEFT_REGION=eu1
                     export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
                     export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
-                    shiftleft iac-assessment --path aws  S3Bucket should have encryption.serverSideEncryptionRules --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
+                    shiftleft iac-assessment --path aws  S3Bucket -l should have encryption.serverSideEncryptionRules --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
                 '''
             }
         }
