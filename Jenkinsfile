@@ -14,7 +14,7 @@ pipeline {
                 }
             }
             steps {
-                dir('iac-code') {
+                dir('cloudguard-iac-scanning-main2') {
                     git branch: 'main',
                     url: 'https://github.com/MamadouDemb/cloudguard-iac-scanning-main2.git'
                 }
@@ -22,7 +22,7 @@ pipeline {
                     export SHIFTLEFT_REGION=eu1
                     export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
                     export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
-                    shiftleft iac-assessment --Infrastructure-Type terraform --path aws --ruleset -64 --severity-level High  --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
+                    shiftleft iac-assessment --path aws --logic aws_config_configuration_recorder should have all_supported=true  --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
                 '''
             }
         }
