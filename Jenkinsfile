@@ -8,7 +8,7 @@ pipeline {
                     url: 'https://github.com/MamadouDemb/cloudguard-iac-scanning-main2.git'
                 }
                 sh '''
-                    cd iac-code/aws
+                    cd /aws
 
                     terraform --version
                     terraform init
