@@ -37,7 +37,7 @@ pipeline {
                     export SHIFTLEFT_REGION=eu1
                     export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
                     export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
-                    shiftleft iac-assessment --path aws --logic aws_config_configuration_recorder should have all_supported=true  --environmentId ec00ab44-b2a5-4d4d-9746-ffaa110dd3b4 || if ["$?" == "6" ]; then exit 0 ; fi
+                    shiftleft iac-assessment --path aws --logic aws_s3_bucket should not have tags.Name  --environmentId fb66d8cd-8955-4c6d-a050-adcf2b890287 || if ["$?" == "6" ]; then exit 0 ; fi
                 '''
             }
         }
