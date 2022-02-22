@@ -42,17 +42,6 @@ pipeline {
             }
         }
         
-        stage('IAC_Provider_Cleanup') {
-            steps {
-                sh '''
-                    du -sh
-                    rm plan-file.json
-                    rm -r .terraform
-                    rm -r .terraform.lock.hcl
-                    du -sh
-                '''
-            }
-        }
 
 
     }
