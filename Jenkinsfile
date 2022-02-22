@@ -37,7 +37,7 @@ pipeline {
                     export SHIFTLEFT_REGION=eu1
                     export CHKP_CLOUDGUARD_ID=$CHKP_CLOUDGUARD_ID
                     export CHKP_CLOUDGUARD_SECRET=$CHKP_CLOUDGUARD_SECRET
-                    shiftleft iac-assessment -l "aws_s3_bucket should not have tags.Name"  -p aws -e fb66d8cd-8955-4c6d-a050-adcf2b890287 || if ["$?" == "6" ]; then exit 0 ; fi
+                    shiftleft iac-assessment -l "S3Bucketshould not have tags"  -p aws -e fb66d8cd-8955-4c6d-a050-adcf2b890287 || if ["$?" == "6" ]; then exit 0 ; fi
                 '''
             }
         }
